@@ -1,20 +1,7 @@
 import React,{forwardRef,useEffect,useState} from 'react'
 import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer,Cell } from 'recharts';
-import { Grid, IconButton,Paper } from "@material-ui/core";
 import { Button, Radio } from 'antd';
 import Colleges from './Colleges'
-import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },
-  }));
-  
 const data01 = [
     { name: 'Group A', value: 400 },
     { name: 'Group B', value: 300 },
@@ -35,9 +22,6 @@ const data01 = [
   const COLORS = ['#8884d8', '#448AFD', '#2B7A52','#4FAFAE'];
 
 function Main() {
-    const classes = useStyles();
-
-
     const [tableType,setTableType] =useState('college')
     const handleCollegeClick=()=>{
         setTableType('college');
@@ -50,54 +34,51 @@ function Main() {
             <div style={{fontSize:"40px"}}>
                 Indian Colleges
             </div>
-            <div style={{justifyContent:"center"}} className={classes.root}>
-                <Grid container>
-                <Grid container item xs={6} justify="center">
-                        <PieChart width={500} height={400} style={{textAlign:"center"}}>
-                            <Pie
-                                dataKey="value"
-                                labelLine={true}
-                                isAnimationActive={false}
-                                data={data01}
-                                cx={230}
-                                cy={200}
-                                outerRadius={150}  
-                                fill="#8884d8"       
-                            >
-                                {data01.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                            </Pie>
+            <div style={{justifyContent:"center",display:"flex"}}>
+                <div>
+                    <PieChart width={500} height={400} style={{textAlign:"center"}}>
+                    <Pie
+                        dataKey="value"
+                        labelLine={true}
+                        isAnimationActive={false}
+                        data={data01}
+                        cx={230}
+                        cy={200}
+                        outerRadius={150}  
+                        fill="#8884d8"       
+                    >
+                        {data01.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                    </Pie>
                         <Tooltip />
                         </PieChart>
                         <Button type="default" shape="round" onClick={handleCollegeClick} >
                                 College Details
                         </Button>    
-                    </Grid>
-                    <Grid container item xs={6} justify="center">
-                        <PieChart width={500} height={400} style={{textAlign:"center"}}>
-                            <Pie
-                                dataKey="value"
-                                labelLine={true}
-                                isAnimationActive={false}
-                                data={data01}
-                                cx={230}
-                                cy={200}
-                                outerRadius={150}  
-                                fill="#8884d8"       
-                            >
-                                {data01.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                            </Pie>
+                </div>
+                <div>
+                    <PieChart width={500} height={400} style={{textAlign:"center"}}>
+                    <Pie
+                        dataKey="value"
+                        labelLine={true}
+                        isAnimationActive={false}
+                        data={data01}
+                        cx={230}
+                        cy={200}
+                        outerRadius={150}  
+                        fill="#8884d8"       
+                    >
+                        {data01.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                    </Pie>
                         <Tooltip />
                         </PieChart>
-                        <Button type="default" shape="round" onClick={handleCollegeClick} >
-                                College Details
+                        <Button type="default" shape="round" onClick={handleCourseClick} >
+                                Course Details
                         </Button>    
-                    </Grid>
-                </Grid>
-                    
+                </div>
                 </div>
                         
                 <br /><br />
