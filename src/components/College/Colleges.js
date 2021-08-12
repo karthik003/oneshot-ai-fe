@@ -1,5 +1,6 @@
 import React,{forwardRef,useEffect,useState} from 'react'
 import { Grid, IconButton, Tooltip } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -16,6 +17,10 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+
+import TablePagination from '@material-ui/core/TablePagination';
 
 import MaterialTable from 'material-table'
 
@@ -39,16 +44,47 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
 function Colleges(props) {
+    const history = useHistory();
+
+    const [tableRowOpen,setTableRowOpen] =useState(false)
     useEffect(()=>{
         
     })
     const columns=[
-        { title: 'Adı', field: 'name' },
-        { title: 'Soyadı', field: 'surname' },
-        { title: 'Doğum Yılı', field: 'birthYear', type: 'numeric' },
-        { title: 'Doğum Yeri', field: 'birthCity', lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' } }
+        { title: 'Name', field: 'name' },
+        { title: 'Year Founded', field: 'year_founded' },
+        { title: 'City', field: 'city'},
+        { title: 'State', field: 'state'},
+        { title: 'Country', field: 'country'},
+        { title: 'No. of Students', field: 'no_of_students'},
+        { title: 'Courses', field: 'courses'},
+
       ]
-    const data=[{ name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 }]
+    const data=[
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
+
+
+    ]
+
+    const displayColDeets =()=>{
+        history.push({
+            pathname: `/college/${123}`,
+            state: {
+
+            },
+          });
+    }
     return (
         <div style={{height:"120vh"}}>
         <Grid container  style={{justifyContent:"center"}}>
@@ -58,39 +94,33 @@ function Colleges(props) {
                     title="Report List"
                     columns={columns}
                     data={data}
-                    // actions={[
-                    //   (rowData) => ({
-                    //     icon: () => ratingUpAction(rowData),
-                    //     tooltip: "Like",
-                    //     onClick: (event) => alert("You want to add a new row"),
-                    //   }),
-
-                    //   (rowData) => ({
-                    //     icon: () => ratingDownAction(rowData),
-                    //     tooltip: "Dislike",
-                    //     onClick: (event) => alert("You want to add a new row"),
-                    //   }),
-                    // ]}
+                    onRowClick={displayColDeets}
                     options={{
+                    rowsPerPageOptions:[5,10,5],
                     selectableRows: false,
                     print: false,
                     download: false,
                     viewColumns: false,
                     headerStyle: {
-                        backgroundColor: "#666666",
+                        backgroundColor: "#4E4E82",
                         color: "#fff",
                     },
                     rowStyle: x => {
-                        if (x.tableData.id % 2) {
-                            return {backgroundColor: "#f7f7f7"}
-                        }
+                        // if (x.tableData.id % 2) {
+                        //     return {backgroundColor: "#f7f7f7"}
+                        // }
+                        return {backgroundColor: "#f7f7f7"}                    
                     }
                     }}
-                    // localization={{
-                    //   header: {
-                    //     actions: "Rating",
-                    //   },
-                    // }}
+
+                    components={{
+                        Pagination: props => (
+                            <TablePagination
+                                {...props}
+                                rowsPerPageOptions={[5, 10]}
+                                />
+                    ),
+                        }}
                 />
                 </Grid>
                 </Grid>
