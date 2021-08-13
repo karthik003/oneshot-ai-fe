@@ -14,13 +14,13 @@ function StudentDetails(match ) {
     })
 
     let skillsStr = location.state.data.skills;
-    // console.log(skillsStr)
     var skills=""
     for(const key in skillsStr){
         skills+=skillsStr[key]
-        
-        if(key!== Object.keys(skillsStr).length -1){
+        if(key< Object.keys(skillsStr).length-1){
             skills+=","
+        }else{
+            break;
         }
     }
         const title=(
@@ -39,7 +39,6 @@ function StudentDetails(match ) {
                     <Col span={24}>
                         <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
                             <Card
-                                hoverable
                                 style={{ width: 400 }}
                                 cover={<AccountCircleIcon style={{ display: 'inline-block', verticalAlign: 'middle',height:"300px",width:"300px" }}/>}
                             >

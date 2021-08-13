@@ -1,6 +1,6 @@
 import React,{forwardRef,useEffect,useState} from 'react'
 import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer,Cell } from 'recharts';
-import { Button } from 'antd';
+import { Row,Col } from 'antd';
 
 import Colleges from './Colleges'
 import axios from 'axios'
@@ -106,55 +106,71 @@ function Main() {
             <div style={{fontSize:"40px"}}>
                 Indian Colleges
             </div>
-            <div style={{justifyContent:"center",display:"flex"}}>
-                <div>
-                    <PieChart width={500} height={400} style={{textAlign:"center"}}>
-                    {collByState.length>0 && 
-                    <Pie
-                        dataKey="value"
-                        labelLine={true}
-                        isAnimationActive={true}
-                        data={collByState}
-                        cx={230}
-                        cy={200}
-                        outerRadius={150}  
-                        fill="#8884d8"
-                        label       
-                    >
-                        {collByState.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} style={{cursor:"pointer"}}onClick={()=>injectStateData(entry)}/>
-                            ))}
-                    </Pie>}
-                        <Tooltip content={<CustomTooltip />} />
-                        </PieChart>
-                        <h3 style={{color:"white"}}>Colleges by State</h3>
-                        <div onClick={handleCollegeClick} >
-                                <a style={{cursor:"auto"}}>(Click on any sector to view the colleges in that state)</a>
-                        </div>    
-                </div>
-
-                <div>
-                    <PieChart width={500} height={400} style={{textAlign:"center"}}>
-                    <Pie
-                        dataKey="value"
-                        labelLine={true}
-                        isAnimationActive={true}
-                        data={collByCourse}
-                        cx={230}
-                        cy={200}
-                        outerRadius={150}  
-                        fill="#8884d8"
-                        label       
-                    >
-                        {collByCourse.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                    </Pie>
-                        <Tooltip content={<CustomTooltip />} />
-                        </PieChart>
-                        <h3 style={{color:"white"}}>Colleges by Course</h3>
-                </div>
-                </div>
+            <Row type="flex" align="middle" >
+                    <Col lg={12} md={12} sm={24} xs={24}>
+                        <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <Row >
+                                <Col span={24} >
+                                    <PieChart width={500} height={400} style={{textAlign:"center"}}>
+                                    {collByState.length>0 && 
+                                    <Pie
+                                        dataKey="value"
+                                        labelLine={true}
+                                        isAnimationActive={true}
+                                        data={collByState}
+                                        cx={230}
+                                        cy={200}
+                                        outerRadius={150}  
+                                        fill="#8884d8"
+                                        label       
+                                    >
+                                        {collByState.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} style={{cursor:"pointer"}}onClick={()=>injectStateData(entry)}/>
+                                            ))}
+                                    </Pie>}
+                                        <Tooltip content={<CustomTooltip />} />
+                                        </PieChart>
+                                        <h3 style={{color:"white"}}>Colleges by State</h3>
+                                        <div onClick={handleCollegeClick} >
+                                                <a style={{cursor:"auto"}}>(Click on any sector to view the colleges in that state)</a>
+                                        </div>
+                                        </Col>
+                                        
+                            </Row>
+                                
+                        </div>
+                    </Col>
+                    <Col lg={12} md={12} sm={24} xs={24}>
+                        <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <Row>
+                                <Col span={24}>
+                                    <PieChart width={500} height={400} style={{textAlign:"center"}}>
+                                        <Pie
+                                            dataKey="value"
+                                            labelLine={true}
+                                            isAnimationActive={true}
+                                            data={collByCourse}
+                                            cx={230}
+                                            cy={200}
+                                            outerRadius={150}  
+                                            fill="#8884d8"
+                                            label       
+                                        >
+                                            {collByCourse.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                ))}
+                                        </Pie>
+                                        <Tooltip content={<CustomTooltip />} />
+                                        </PieChart>
+                                        <h3 style={{color:"white"}}>Colleges by Course</h3>
+                                </Col>
+                            </Row>
+                                
+                        </div>
+                    </Col>
+                    
+                </Row>
+            
                         
                 <br /><br />
                 {tableType==="college"?
