@@ -77,11 +77,11 @@ function Colleges(props) {
 
     ]
 
-    const displayColDeets =()=>{
+    const displayColDeets =(rowData)=>{
         history.push({
             pathname: `/college/${123}`,
             state: {
-
+                data:rowData
             },
           });
     }
@@ -94,9 +94,8 @@ function Colleges(props) {
                     title="Report List"
                     columns={columns}
                     data={data}
-                    onRowClick={displayColDeets}
+                    onRowClick={(event, rowData)=>displayColDeets(rowData)}
                     options={{
-                    rowsPerPageOptions:[5,10,5],
                     selectableRows: false,
                     print: false,
                     download: false,

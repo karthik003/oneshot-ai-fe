@@ -1,7 +1,7 @@
 import React,{forwardRef,useEffect,useState} from 'react'
 import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer,Cell } from 'recharts';
 import { Button, Radio } from 'antd';
-import Colleges from './components/College/Colleges'
+import Colleges from './components/Colleges'
 const data01 = [
     { name: 'Group A', value: 400 },
     { name: 'Group B', value: 300 },
