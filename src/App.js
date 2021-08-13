@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import {Link,BrowserRouter as Router,Switch,Route} from 'react-router-dom'
-import Main from './Main';
+import Main from './components/Main';
 import Colleges from './components/Colleges';
 import CollegeDetails from './components/CollegeDetails'
 import StudentDetails from './components/StudentDetails'

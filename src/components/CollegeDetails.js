@@ -24,8 +24,9 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 
 import TablePagination from '@material-ui/core/TablePagination';
-
 import MaterialTable from 'material-table'
+
+import axios from 'axios'
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -62,61 +63,118 @@ const tableIcons = {
   </Typography>
 );
 
-function CollegeDetails(match ) {
+function CollegeDetails(match) {
     const history = useHistory();
     const location = useLocation();
     const [tableRowOpen,setTableRowOpen] =useState(false)
+    const [studList, setStudList] =useState([])
+    const [similarList, setSimilarList]= useState([])
     useEffect(()=>{
-        console.log("state",location.state)
-    })
+        //console.log("id:",match.id)
+
+        axios.get(`https://oneshot-ai-be.herokuapp.com/student/collegeid/`+match.id)
+        .then((res)=>{
+            //console.log(res)
+            const studArr =[]
+            res.data.map((data,index)=>{
+                studArr.push({
+                    student_id:data._id,
+                    college_id:data.college_id,
+                    name:data.name,
+                    year_of_batch:data.year_of_batch,
+                    skills:data.skills,
+
+                })
+            })
+            setStudList(studArr)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+
+        axios.get(`https://oneshot-ai-be.herokuapp.com/college/similarColleges/`+match.id)
+        .then((res)=>{
+            //console.log(res)
+            const similarColl =[]
+            res.data.map((data,index)=>{
+                similarColl.push({
+                    name:data.name,
+                    city:data.city,
+                    country:data.country,
+                    // no_of_students:data.no_of_students,
+                    no_of_students:100,
+                    state:data.state,
+                    year_founded:data.year_founded,
+                    courses :  data.courses,
+                    id:data._id
+
+                })
+            })
+            setSimilarList(similarColl)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+
+    },[])
     const collegeColumns=[
         { title: 'Year Founded', field: 'year_founded'},
         { title: 'City', field: 'city'},
         { title: 'State', field: 'state'},
         { title: 'Country', field: 'country'},
         { title: 'No. of Students', field: 'no_of_students'},
-        { title: 'Courses', field: 'courses'},
+        // { title: 'Courses', field: 'courses'},
 
       ]
     
       const collegeData=[
-        { year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' }
+        { year_founded: location.state.data.year_founded, 
+        city: location.state.data.city, 
+        state: location.state.data.state,
+        country:location.state.data.country,
+        no_of_students:location.state.data.no_of_students,
+        courses:location.state.data.courses }
       ]
 
 
       const studentColumns =[
         { title: 'Name', field: 'name'},
         { title: 'Batch Year', field: 'year_of_batch'},
-        { title: 'College id', field: 'college_id'},
+        // { title: 'College id', field: 'college_id'},
         { title: 'Skills', field: 'skills'},
 
       ]
-    const studentData=[
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-        { name: 'Robin', year_of_batch: '2000', college_id: '123', skills: 'C,Cpp'},
-    ]
 
-    const displayStudDeets =()=>{
+      const similarCollegeColumns =[
+        { title: 'Name', field: 'name' },
+        { title: 'Year Founded', field: 'year_founded' },
+        { title: 'City', field: 'city'},
+        { title: 'State', field: 'state'},
+        { title: 'Country', field: 'country'},
+        { title: 'No. of Students', field: 'no_of_students'},
+        // { title: 'Courses', field: 'courses'},
+      ]
+
+    const displayStudDeets =(rowData)=>{
         history.push({
-            pathname: `/student/${123}`,
+            pathname: `/student/`+rowData.student_id,
             state: {
+                data:rowData
+            },
+          });
+    }
 
+    const displayColDeets =(rowData)=>{
+        history.push({
+            pathname: `/college/`+rowData.id,
+            state: {
+                data:rowData
             },
           });
     }
     return (
         <div style={{color:"white",paddingBottom:"30px"}}>
-            <div style={{fontSize:"40px"}}>College Name</div><br />
+            <div style={{fontSize:"40px"}}>{location.state.data.name}</div><br />
 
         <Grid container  style={{justifyContent:"center"}}>
         <Grid item xs={8} >
@@ -160,8 +218,50 @@ function CollegeDetails(match ) {
                     icons={tableIcons}
                     title={<MyNewTitle variant="h6" text="Student List" />}
                     columns={studentColumns}
-                    data={studentData}
-                    onRowClick={displayStudDeets}
+                    data={studList}
+                    onRowClick={(event, rowData)=>displayStudDeets(rowData)}
+                    options={{
+                    search:false,
+                    selectableRows: false,
+                    print: false,
+                    download: false,
+                    viewColumns: false,
+                    headerStyle: {
+                        textAlign:"center",
+                        justifyContent:"center",            
+                        backgroundColor: "#4E4E82",
+                        color: "#fff",
+                    },
+                    cellStyle:{
+                        textAlign:"center",
+                    },
+                    rowStyle:{
+                        backgroundColor: "#f7f7f7"                    
+                    },
+                    }}
+
+                    components={{
+                        Pagination: props => (
+                            <TablePagination
+                                {...props}
+                                rowsPerPageOptions={[5, 10]}
+                                />
+                    ),
+                    }}
+
+
+                />
+                </Grid>
+
+                <Grid item xs={8} >                
+                    <br /><br /><br />
+                    <div style={{fontSize:"40px"}}>List of Similar Colleges</div><br />
+                <MaterialTable
+                    icons={tableIcons}
+                    title={<MyNewTitle variant="h6" text="Student List" />}
+                    columns={similarCollegeColumns}
+                    data={similarList}
+                    onRowClick={(event, rowData)=>displayColDeets(rowData)}
                     options={{
                     search:false,
                     selectableRows: false,

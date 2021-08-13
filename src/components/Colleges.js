@@ -45,10 +45,9 @@ const tableIcons = {
   };
 function Colleges(props) {
     const history = useHistory();
-
-    const [tableRowOpen,setTableRowOpen] =useState(false)
     useEffect(()=>{
-        
+        //console.log(props.data)
+       // axios.get()
     })
     const columns=[
         { title: 'Name', field: 'name' },
@@ -57,43 +56,27 @@ function Colleges(props) {
         { title: 'State', field: 'state'},
         { title: 'Country', field: 'country'},
         { title: 'No. of Students', field: 'no_of_students'},
-        { title: 'Courses', field: 'courses'},
+        // { title: 'Courses', field: 'courses'},
 
       ]
-    const data=[
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-        { name: 'Mehmet', year_founded: '2000', city: 'Vizag', state: 'AP',country:'India',no_of_students:500,courses:'CSE,ECE' },
-
-
-    ]
 
     const displayColDeets =(rowData)=>{
         history.push({
-            pathname: `/college/${123}`,
+            pathname: `/college/`+rowData.id,
             state: {
                 data:rowData
             },
           });
     }
     return (
-        <div style={{height:"120vh"}}>
+        <div style={{paddingBottom:"50px"}}>
         <Grid container  style={{justifyContent:"center"}}>
         <Grid item xs={8} >
                 <MaterialTable
                     icons={tableIcons}
-                    title="Report List"
+                    title={"List of Colleges"}
                     columns={columns}
-                    data={data}
+                    data={props.data}
                     onRowClick={(event, rowData)=>displayColDeets(rowData)}
                     options={{
                     selectableRows: false,
